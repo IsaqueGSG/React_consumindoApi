@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import axios from "axios";
 
 function App() {
+  let [code, setcode] = useState('');
+  let [patrimonio, setpatrimonio] = useState('');
+
+  async function handleSubmit(e){
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:3001/api',{
+        code,
+        patrimonio
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <div>
+        Code:
+        <input type="text" name="code" onChange={(e)=> setcode(e.target.value)}></input>
+      </div>
+      <div>
+        patrimonio:
+        <input type="text" name="patrimonio" onChange={(e)=> setpatrimonio(e.target.value)}></input>
+      </div>
+      <input type="submit"></input>
+    </form>
   );
 }
+
+
 
 export default App;
