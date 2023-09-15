@@ -8,14 +8,11 @@ import {
   Grid, 
   Container,
   CssBaseline,
-  Typography,
   MenuItem,
   Select,
   InputLabel,
   FormControl,
 } from "@mui/material";
-
-import Scanner from "./components/scan";
 
 function App() {
   let [Nserie, setNserie] = useState('');
@@ -25,13 +22,6 @@ function App() {
   let [obs, setObs] = useState('');
   let [statusBem, setStatusBem] = useState('');
   let [tipoBem, setTipoBem] = useState('');
-
-  let [camera, setCamera] = useState(false);
-  let [result, setResult] = useState(null);
-
-  const onDetected = result => {
-    setResult(result);
-  };
 
   async function handleSubmit(e){
     e.preventDefault();
@@ -66,12 +56,6 @@ function App() {
 
   return (
     <>
-
-    
-      <div className="container">
-        {camera && <Scanner onDetected={onDetected} />}
-      </div>
-    
     <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -82,9 +66,6 @@ function App() {
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h5">
-            Mapeamento de Bens
-          </Typography>
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
                            
@@ -171,12 +152,12 @@ function App() {
                   id="patrimonio"
                   label="Patrimonio"
                   autoFocus
-                  value={ result ? result : patrimonio }
+                  value={ patrimonio }
                   onChange={(e)=> setpatrimonio(e.target.value)}
                   InputProps={{
                     endAdornment: 
-                    <Button variant="outlined" onClick={() => setCamera(!camera)}>
-                      {camera ? "Stop" : "Ler"}
+                    <Button variant="outlined" >
+                     Ler
                     </Button>}
                   }
                 />
@@ -187,13 +168,12 @@ function App() {
                   id="Nserie"
                   label="Numero de Serie"
                   name="Nserie"
-                  value={ result ? result : Nserie }
+                  value={ Nserie } 
                   onChange={(e)=> setNserie(e.target.value)}
                   InputProps={{
                     endAdornment: 
-                    <Button variant="outlined" onClick={() => setCamera(!camera)}>
-                      {camera ? "Stop" : "Ler"}
-                      
+                    <Button variant="outlined" >
+                     Ler
                     </Button>}
                   }
                 />
