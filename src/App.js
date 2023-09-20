@@ -8,6 +8,7 @@ import {
 
 import Form from "./components/Form";
 import BarcodeScanner from "./components/BarcodeScanner";
+import Teste from './components/teste'
 
 function App(){
   return(
@@ -15,6 +16,7 @@ function App(){
       <Routes>
         <Route path="/React_consumindoApi" element={ <Form/> } />
         <Route path="/BarcodeScanner" caseSensitive={false} element={ <BarcodeScanner/> } />
+        <Route path="/teste" caseSensitive={false} element={ <Teste/> } />
       </Routes>
     </div>
   )

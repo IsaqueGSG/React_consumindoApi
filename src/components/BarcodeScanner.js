@@ -1,31 +1,62 @@
-import React, { useState } from "react";
-import { useLocation } from 'react-router-dom';
+// import React from "react";
+// import { useLocation } from 'react-router-dom';
+// import Scanner from "./Scanner";
 
-import Scanner from "./Scanner";
+// function BarcodeScanner() {
+//   const location = useLocation();
+//   const tipo = new URLSearchParams(location.search).get('tipo');
 
-function BarcodeScanner() {
-  const [camera, setCamera] = useState(false);
-  const [result, setResult] = useState(null);
+//   return (
+//     <div className="BarcodeScanner">
+//       <Scanner tipo={tipo} />
+//     </div>
+//   );
+// }
+// export default BarcodeScanner;
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const tipo = queryParams.get('tipo');
+import React, { Component } from 'react'
+import Scanner from './Scanner'
+import {Fab, TextareaAutosize, Paper} from '@mui/material'
+import { Link } from "react-router-dom";
 
-  const onDetected = result => {
-    setResult(result);
-  };
+class BarcodeScanner extends Component {
+  state = {
+    results: [],
+  }
 
-  return (
-    <div className="BarcodeScanner">
-      <p>{result ? result : "Scanning..."}</p>
-      <button onClick={() => setCamera(!camera)}>
-        {camera ? "Stop" : "Start"}
-      </button>
-      <div className="container">
-        {camera && <Scanner tipo={tipo} onDetected={onDetected} />}
+  _scan = () => {
+    this.setState({ scanning: !this.state.scanning })
+  }
+
+  _onDetected = result => {
+    this.setState({ results: [] })
+    this.setState({ results: this.state.results.concat([result]) })
+  }
+
+  render() {
+    return (
+      <div>
+        <Link to="/">
+            <Fab style={{marginRight:10}} color="secondary">
+                BACK
+            </Fab>
+        </Link>
+        <span>Barcode Scanner</span>
+        
+        <Paper variant="outlined" style={{marginTop:30, width:640, height:320}}>
+          <Scanner onDetected={this._onDetected} />
+        </Paper>
+
+        <TextareaAutosize
+            style={{fontSize:32, width:320, height:100, marginTop:30}}
+            rowsMax={4}
+            defaultValue={'No data scanned'}
+            value={this.state.results[0] ? this.state.results[0].codeResult.code : 'No data scanned'}
+        />
+
       </div>
-    </div>
-  );
+    )
+  }
 }
 
-export default BarcodeScanner;
+export default BarcodeScanner
