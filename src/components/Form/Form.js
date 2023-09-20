@@ -30,7 +30,12 @@ function Form(props) {
     try {
       const response = await axios.post('http://localhost:3001/',{
         Nserie,
-        patrimonio
+        patrimonio,
+        local,
+        inventariante,
+        obs,
+        statusBem,
+        tipoBem
       },
       {
         headers: {
