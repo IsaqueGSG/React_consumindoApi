@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { toast, ToastContainer  } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import { 
   styled,
@@ -15,6 +17,8 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
+import Consulta from "../Consulta/Consulta";
+
 function Form(props) {
   let [Nserie, setNserie] = useState('');
   let [patrimonio, setpatrimonio] = useState('');
@@ -23,7 +27,6 @@ function Form(props) {
   let [obs, setObs] = useState('');
   let [statusBem, setStatusBem] = useState('');
   let [tipoBem, setTipoBem] = useState('');
-
 
   async function handleSubmit(e){
     e.preventDefault();
@@ -44,8 +47,12 @@ function Form(props) {
       }
       );
       console.log(response);
+      localStorage.setItem('patrimonio','')
+      localStorage.setItem('Nserie','')
+      toast.success('Sucesso!');
     } catch (error) {
       console.error(error);
+      toast.error('Algo deu errado');
     }
   }
   const VisuallyHiddenInput = styled('input')({
@@ -59,23 +66,24 @@ function Form(props) {
     whiteSpace: 'nowrap',
     width: 1,
   });
-
-
+  
+  
   return (
     <>
+    <ToastContainer/>
     <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 3,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={handleSubmit}>
 
-            <Grid container spacing={2}>
+            <Grid container spacing={1.5}>
               <Grid item xs={12} sm={6}>
             
                 <FormControl sx={{ width: 1 }}>
@@ -231,16 +239,17 @@ function Form(props) {
                   FOTO 4
                   <VisuallyHiddenInput type="file" />
                 </Button>
-              </Grid>             
+              </Grid> 
             </Grid>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+              sx={{ mt: 2, mb: 2 }}
+              >
               Sign Up
             </Button>
+              <Consulta></Consulta>
           </Box>
         </Box>
       </Container>
